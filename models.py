@@ -20,3 +20,20 @@ class User(db.Model):
     image_url = db.Column(db.String(500),
                           nullable=False,
                           unique=False)
+    
+    post = db.relationship('Post', backref='users')
+    
+class Post(db.Model):
+    """Post from users"""
+
+    __tablename__ = "posts"
+
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
+    title = db.Column(db.String(50),
+                      nullable=False)
+    content = db.Column(db.String(500),
+                        nullable=False)
+    user_id = db.Column(db.Integer,
+                          db.ForeignKey('users.id'))
