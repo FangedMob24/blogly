@@ -83,7 +83,11 @@ def delete_user(user_id):
     db.session.commit()
     return redirect("/users")
 
+#
+#
 #POSTS SECTION
+#
+#
 
 #/users/[user-id]/posts/new
 @app.route('/users/<int:user_id>/posts/new')
@@ -112,14 +116,15 @@ def post_info(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html',post=post)
 
-#/post/[post-id]/edit
-@app.route('/post/<int:post_id>/edit')
+#/posts/[post-id]/edit
+@app.route('/posts/<int:post_id>/edit')
 def post_edit(post_id):
     """Edit existing post"""
-    return render_template('post_edit.html', post_id=post_id)
+    post = Post.query.get_or_404(post_id)
+    return render_template('post_edit.html', post=post)
 
 #/posts/[post-id]/edit, methods=["POST"]
-@app.route('/post/<int:post_id>/edit', methods=["POST"])
+@app.route('/posts/<int:post_id>/edit', methods=["POST"])
 def post_change(post_id):
     """Edit existing post confirmation"""
     title = request.form["title"]
@@ -136,10 +141,10 @@ def post_change(post_id):
     return redirect(f"/posts/{post_id}")
 
 #/posts/[post-id]/delete
-@app.route('/users/<int:post_id>/delete', methods=["POST"])
+@app.route('/posts/<int:post_id>/delete', methods=["POST"])
 def delete_post(post_id):
-    post = Post.query.filter_by(id = post_id)
-    user = post.user_id
+    post = Post.query.get_or_404(post_id)
+    user = post.users.id
 
     Post.query.filter_by(id = post_id).delete()
     db.session.commit()

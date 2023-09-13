@@ -8,11 +8,11 @@
 
 <p>By {{post.users.first_name}}</p>
 
-<form action="/post/{{post.id}}/edit">
+<form action="/posts/{{post.id}}/edit">
     <button>Edit</button>
 </form>
 
-<form action="/post/{{post.id}}/delete" method="POST">
+<form action="/posts/{{post.id}}/delete" method="POST">
     <button>Delete</button>
 </form>
 {% endblock %}
