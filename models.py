@@ -37,3 +37,36 @@ class Post(db.Model):
                         nullable=False)
     user_id = db.Column(db.Integer,
                           db.ForeignKey('users.id'))
+    
+    poststags = db.relationship('TagPost', backref='posts')
+    
+    tags = db.relationship("Tag",
+                           secondary="tags_posts",
+                           backref="posts")
+    
+class TagPost(db.Model):
+    "stores which tags go with which post"
+
+    __tablename__ = "tags_posts"
+
+    post_id = db.Column(db.Integer,
+                        db.ForeignKey("posts.id"),
+                        primary_key=True)
+    tag_id = db.Column(db.Integer,
+                        db.ForeignKey("tags.id"),
+                        primary_key=True)
+
+    
+class Tag(db.Model):
+    """Tags for post"""
+
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
+    tag_name = db.Column(db.Text,
+                         nullable=False,
+                         unique=True)
+    
+    tagsposts = db.relationship('TagPost', backref='tags')

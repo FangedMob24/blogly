@@ -8,7 +8,13 @@
 </h1>
 <form action="/users/{{user.id}}/posts/new" method="POST">
     Title: <input type="text" name="title" placeholder="title">
+
     Content: <input type="text" name="content" placeholder="content">
+    
+    Tags:
+    {% for tag in tags %}
+        {{tag.tag_name}}<input type="checkbox" value="{{tag.id}}" name="tags">
+    {% endfor %}
     
     <button>Add</button>
 </form>
